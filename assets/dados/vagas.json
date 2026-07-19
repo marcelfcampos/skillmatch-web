@@ -1,0 +1,52 @@
+[
+  {
+    "id": 1,
+    "empresa": "TechStart",
+    "cargo": "Desenvolvedor Front-End",
+    "requisitos": ["JavaScript", "GitHub", "Arrays", "CSS"],
+    "salario": 3000,
+    "modalidade": "Remoto",
+    "stack": ["HTML", "CSS", "JavaScript"],
+    "senioridade": "Júnior"
+  },
+  {
+    "id": 2,
+    "empresa": "DevCorp",
+    "cargo": "Desenvolvedor Front-End",
+    "requisitos": ["JavaScript", "GitHub", "Kanban", "React"],
+    "salario": 3500,
+    "modalidade": "Híbrido",
+    "stack": ["JavaScript", "React"],
+    "senioridade": "Júnior"
+  },
+  {
+    "id": 3,
+    "empresa": "WebFlow Studio",
+    "cargo": "Desenvolvedor Front-End",
+    "requisitos": ["HTML", "CSS", "Design Responsivo"],
+    "salario": 2800,
+    "modalidade": "Presencial",
+    "stack": ["HTML", "CSS"],
+    "senioridade": "Júnior"
+  },
+  {
+    "id": 4,
+    "empresa": "NimbusTech",
+    "cargo": "Desenvolvedor Front-End Pleno",
+    "requisitos": ["JavaScript", "TypeScript", "React", "GitHub"],
+    "salario": 5200,
+    "modalidade": "Remoto",
+    "stack": ["React", "TypeScript"],
+    "senioridade": "Pleno"
+  },
+  {
+    "id": 5,
+    "empresa": "Órbita Digital",
+    "cargo": "Desenvolvedor Front-End Jr",
+    "requisitos": ["JavaScript", "Kanban", "CSS", "Acessibilidade"],
+    "salario": 3100,
+    "modalidade": "Híbrido",
+    "stack": ["JavaScript", "CSS"],
+    "senioridade": "Júnior"
+  }
+]
