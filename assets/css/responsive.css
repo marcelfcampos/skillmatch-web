@@ -1,0 +1,93 @@
+/**
+ * responsive.css
+ * Ajustes de layout para telas menores (mobile-first: o layout base em
+ * style.css já funciona em coluna única; aqui refinamos espaçamentos e
+ * grids específicos por breakpoint).
+ */
+
+/* Telas médias (tablets) */
+@media (max-width: 900px) {
+    #formPerfil {
+        grid-template-columns: 1fr;
+        max-width: 100%;
+    }
+
+    .best-inner,
+    .candidato {
+        grid-template-columns: 1fr;
+        gap: 48px;
+    }
+
+    .concepts {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Telas pequenas (celulares) */
+@media (max-width: 640px) {
+
+    nav,
+    .hero,
+    .section,
+    .perfil,
+    .best,
+    .candidato {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+
+    nav {
+        flex-wrap: wrap;
+        gap: 10px;
+        padding-top: 14px;
+        padding-bottom: 14px;
+    }
+
+    .nav-actions {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    body {
+        padding-top: 116px;
+    }
+
+    .filtros {
+        flex-direction: column;
+        gap: 14px;
+    }
+
+    .campo-filtro select {
+        width: 100%;
+    }
+
+    table,
+    thead,
+    tbody,
+    th,
+    td,
+    tr {
+        display: block;
+    }
+
+    thead {
+        display: none;
+    }
+
+    tbody tr {
+        padding: 20px 0;
+        border-bottom: 1px solid var(--surf);
+    }
+
+    td {
+        border: none;
+        padding: 6px 0;
+    }
+
+    footer {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+        padding: 24px;
+    }
+}
