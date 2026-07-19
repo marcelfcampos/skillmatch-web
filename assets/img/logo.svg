@@ -1,0 +1,5 @@
+<svg width="28" height="28" viewBox="0 0 28 28" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="SkillMatch JS">
+  <rect x="0.5" y="0.5" width="27" height="27" rx="6" fill="#0d0d0d" stroke="#0d0d0d"/>
+  <path d="M8 18.5L13 9.5L18.5 15L20.5 11.5" stroke="#c8f53c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  <circle cx="20.5" cy="11.5" r="1.6" fill="#c8f53c"/>
+</svg>
