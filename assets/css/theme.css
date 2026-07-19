@@ -1,0 +1,31 @@
+/**
+ * theme.css
+ * Variáveis de design (design tokens) para o tema claro (padrão) e escuro.
+ * O tema escuro é ativado via atributo [data-theme="dark"] na raiz do HTML.
+ */
+
+:root {
+  --bg: #f5f3ee;
+  --blk: #0d0d0d;
+  --mid: #6b6b6b;
+  --lt: #d4d0c8;
+  --acc: #c8f53c;
+  --accd: #8ab800;
+  --surf: #eeece7;
+  --card-bg: #1a1a1a;
+  --card-line: #2a2a2a;
+  --focus-ring: #1d4ed8;
+}
+
+[data-theme="dark"] {
+  --bg: #101114;
+  --blk: #f2f1ee;
+  --mid: #9a9a9a;
+  --lt: #2a2b2f;
+  --acc: #c8f53c;
+  --accd: #a3e635;
+  --surf: #1b1c20;
+  --card-bg: #17181b;
+  --card-line: #2a2b2f;
+  --focus-ring: #c8f53c;
+}

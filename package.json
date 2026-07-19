@@ -1,0 +1,19 @@
+{
+  "name": "skillmatch-web",
+  "version": "2.0.0",
+  "description": "Simulador de compatibilidade entre candidatos e vagas Front-End Júnior, com perfil editável, filtros, tema claro/escuro e geolocalização opcional.",
+  "type": "module",
+  "main": "index.html",
+  "scripts": {
+    "start": "npx serve ."
+  },
+  "keywords": [
+    "javascript",
+    "front-end",
+    "skillmatch",
+    "poo",
+    "es-modules"
+  ],
+  "author": "Marcel Ferreira Campos",
+  "license": "MIT"
+}
