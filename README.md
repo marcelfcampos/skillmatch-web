@@ -2,15 +2,16 @@
 
 O SkillMatch JS é uma aplicação web desenvolvida com HTML, CSS e JavaScript puro que analisa o perfil técnico de um candidato, compara suas habilidades com vagas de Front-End e apresenta a compatibilidade, recomendações de estudo e a oportunidade mais adequada ao usuário.
 
+
 ## Sobre o Projeto
 
 O **SkillMatch JS** analisa o perfil técnico informado pelo próprio usuário — através de um formulário — e o compara com os requisitos de vagas reais de Front-End carregadas de um catálogo em JSON, calculando compatibilidade, classificando as vagas e recomendando o que estudar para chegar a 100%.
 
-#### O projeto realiza:
+### Funcionalidades
 
 - Coleta e valida os dados do candidato por meio de um formulário.
-- Salva o perfil no navegador utilizando localStorage.
-- Busca o catálogo de vagas em um arquivo JSON usando fetch.
+- Salva o perfil no navegador utilizando `localStorage`.
+- Busca o catálogo de vagas em um arquivo JSON usando `fetch`.
 - Calcula a porcentagem de compatibilidade entre o candidato e cada vaga.
 - Identifica quais habilidades o candidato já possui e quais ainda precisa desenvolver.
 - Classifica as vagas em níveis de compatibilidade (alta, média ou baixa).
@@ -21,7 +22,7 @@ O **SkillMatch JS** analisa o perfil técnico informado pelo próprio usuário �
 - Utiliza geolocalização para fornecer contexto sobre vagas presenciais e remotas.
 - Exibe os resultados em uma interface responsiva e acessível.
 
-## O que mudou nesta versão
+### O que mudou nesta versão
 
 Esta é uma reestruturação completa do projeto original (que tinha um candidato fixo, "Marcel", e uma estrutura de arquivos mais simples). As principais mudanças:
 
@@ -35,7 +36,43 @@ Esta é uma reestruturação completa do projeto original (que tinha um candidat
 | Sem geolocalização | **Geolocalização** para dar contexto sobre remoto x presencial |
 | — | `package.json` com script `npm start` |
 
-## Estrutura do projeto
+---
+
+## Tecnologias Utilizadas
+
+- JavaScript (ES Modules)
+- HTML5 semântico
+- CSS3 (mobile-first, custom properties)
+- Fetch API + JSON
+- Web Storage API (`localStorage`)
+- Geolocation API
+- VS Code
+- GitHub / GitHub Desktop
+- Kanban (Trello)
+
+## Conceitos de JavaScript Aplicados
+
+- Variáveis (`const`, `let`)
+- Tipos de dados
+- Condicionais (`if/else`, `switch`, ternário)
+- Operadores
+- Estruturas de repetição
+- Funções e Arrow Functions
+- Arrays e métodos de array (`map`, `filter`, `find`, `every`, `reduce`)
+- Objetos
+- POO, Classes e Herança
+- Callbacks
+- Closures
+- Promises
+- Async/Await
+- Módulos ES (`import`/`export`)
+- Fetch API
+- localStorage
+- Geolocation API
+
+---
+
+## Estrutura do Projeto
 
 ```
 skillmatch-web/
@@ -73,21 +110,45 @@ skillmatch-web/
             └── closures.js     # closure — contador de análises da sessão
 ```
 
-## Como Executar
+---
 
-> O projeto usa `fetch` para carregar `assets/dados/vagas.json`, então precisa ser servido por um servidor local — abrir o `index.html` direto via `file://` bloqueia o `fetch` por política de CORS do navegador.
+## Requisitos Incorporados
 
-```bash
-npm start
-```
+### Motor SkillMatch
 
-ou, sem instalar nada:
+- **Perfil do candidato**: classe `Candidato` (`motor/Candidato.js`), preenchida pelo formulário, salva e recuperada via `localStorage` (`services/storage.js`).
+- **Catálogo de vagas**: `assets/dados/vagas.json` com 5 vagas, cada uma com `id`, `empresa`, `cargo`, `requisitos`, `salario` e `modalidade`. Carregado com `fetch` + `async/await` em `services/api.js`.
+- **Compatibilidade**: `(requisitos atendidos / total) * 100`, com separação de habilidades encontradas/faltantes (`motor/analise.js`).
+- **Classificação**: Alta (80–100%), Média (50–79%), Baixa (0–49%) via `switch` sobre condições.
+- **Melhor vaga**: `encontrarMelhorVaga` usa `reduce` para achar a maior compatibilidade e gera recomendação de estudo a partir das habilidades faltantes.
+- **Métodos de array**: `map` (transformar vagas e gerar resultados), `filter` (habilidades encontradas/faltantes, filtros de UI), `find` (`buscarVagaPorId`), `every` (`Vaga.candidatoAtendeTudo`), `reduce` (melhor vaga) — todos comentados no código indicando onde são usados.
+- **POO**: `class Vaga` (construtor, atributos, método `exibirResumo()` usando `this`) e `class VagaFrontend extends Vaga`, que adiciona `stack` e `senioridade`, **sobrescreve** `exibirResumo()` e implementa `pesoDaHabilidade()` (peso extra para tecnologias como React/TypeScript).
+- **Callback**: `utils/callbacks.js` exporta `executarAnalise(nomeCandidato, callback)`, que recebe uma função como parâmetro e a executa ao final do fluxo.
+- **Closure**: `utils/closures.js` exporta `criarContador()` e a instância `contadorAnalises`, usada para contar quantas análises foram feitas na sessão sem expor o contador ao escopo global.
 
-```bash
-npx serve .
-```
+### Interface
 
-Depois acesse o endereço exibido no terminal (ex: `http://localhost:3000`).
+- **HTML semântico e acessível**: `header`, `nav`, `main`, `section`, `footer`; um único `h1` (o restante usa `h2`); todo `input` tem `label` associado via `for`/`id`; grupos de filtro usam `role="group"` + `aria-label`; foco visível (`:focus-visible`) em toda a aplicação; `lang="pt-BR"` no `<html>`; logo com `alt` descritivo; `title` e `meta description` definidos; link de "pular para o conteúdo" para navegação por teclado.
+- **Formulário**: perfil do candidato com `addEventListener("submit")`, `preventDefault()`, validação (nome, área e ao menos uma habilidade obrigatórios) e mensagem de status acessível (`aria-live="polite"`).
+- **Filtros**: seletores de modalidade e classificação, filtrando os resultados já calculados sem precisar buscar as vagas novamente.
+- **Tema**: botão com `aria-pressed` alternando `data-theme` no `<html>`, com variáveis de cor centralizadas em `theme.css`.
+- **Geolocalização**: `services/geolocation.js` pergunta a localização ao navegador (com permissão do usuário) e exibe uma nota contextual sobre vagas remotas; falha de forma silenciosa se o usuário negar ou o navegador não suportar, nunca bloqueando o restante da aplicação.
+- **Responsividade**: `responsive.css` segue mobile-first, com breakpoints em `900px` e `640px`, incluindo uma tabela que vira "cards" empilhados em telas pequenas.
+
+---
+
+## Como Executar o Projeto
+
+1. Clone o repositório:
+   ```
+   git clone https://github.com/marcelfcampos/skillmatch-web.git
+   ```
+2. Acesse o diretório:
+   ```
+   cd skillmatch-web
+   ```
+3. Abra o arquivo `index.html` (ou rode `npm start`, conforme o `package.json`).
+4. Acesse o endereço exibido no terminal (ex: `http://localhost:3000`).
 
 ### Passo a passo na interface
 
@@ -97,80 +158,18 @@ Depois acesse o endereço exibido no terminal (ex: `http://localhost:3000`).
 4. Clique em **"Alternar tema"** no menu para trocar entre claro e escuro — a preferência é lembrada na próxima visita.
 5. Ao recarregar a página, seu perfil salvo é recarregado automaticamente e a análise é refeita.
 
-## Requisitos incorporados
+## SkillMatch JS — Interface
 
-### Motor SkillMatch
+[![SkillMatch JS - Interface de Match Front-End](assets/img/preview.png)](https://skillmatch-web-vert.vercel.app/)
 
-- **Perfil do candidato**: classe `Candidato` (`motor/Candidato.js`), preenchida pelo formulário, salva e recuperada via `localStorage` (`services/storage.js`).
+## Demonstração: Projeto SkillMatch JS
 
-- **Catálogo de vagas**: `assets/dados/vagas.json` com 5 vagas, cada uma com `id`, `empresa`, `cargo`, `requisitos`, `salario` e `modalidade`. Carregado com `fetch` + `async/await` em `services/api.js`.
+🔗 [Vercel (Deploy)](https://skillmatch-web-vert.vercel.app/)
 
-- **Compatibilidade**: `(requisitos atendidos / total) * 100`, com separação de habilidades encontradas/faltantes (`motor/analise.js`).
+---
+### Arquitetura cliente-servidor
 
-- **Classificação**: Alta (80–100%), Média (50–79%), Baixa (0–49%) via `switch` sobre condições.
-
-- **Melhor vaga**: `encontrarMelhorVaga` usa `reduce` para achar a maior compatibilidade e gera recomendação de estudo a partir das habilidades faltantes.
-
-- **Métodos de array**: `map` (transformar vagas e gerar resultados), `filter` (habilidades encontradas/faltantes, filtros de UI), `find` (`buscarVagaPorId`), `every` (`Vaga.candidatoAtendeTudo`), `reduce` (melhor vaga) — todos comentados no código indicando onde são usados.
-
-- **POO**: `class Vaga` (construtor, atributos, método `exibirResumo()` usando `this`) e `class VagaFrontend extends Vaga`, que adiciona `stack` e `senioridade`, **sobrescreve** `exibirResumo()` e implementa `pesoDaHabilidade()` (peso extra para tecnologias como React/TypeScript).
-
-- **Callback**: `utils/callbacks.js` exporta `executarAnalise(nomeCandidato, callback)`, que recebe uma função como parâmetro e a executa ao final do fluxo.
-
-- **Closure**: `utils/closures.js` exporta `criarContador()` e a instância `contadorAnalises`, usada para contar quantas análises foram feitas na sessão sem expor o contador ao escopo global.
-
-### Interface
-
-- **HTML semântico e acessível**: `header`, `nav`, `main`, `section`, `footer`; um único `h1` (o restante usa `h2`); todo `input` tem `label` associado via `for`/`id`; grupos de filtro usam `role="group"` + `aria-label`; foco visível (`:focus-visible`) em toda a aplicação; `lang="pt-BR"` no `<html>`; logo com `alt` descritivo; `title` e `meta description` definidos; link de "pular para o conteúdo" para navegação por teclado.
-
-- **Formulário**: perfil do candidato com `addEventListener("submit")`, `preventDefault()`, validação (nome, área e ao menos uma habilidade obrigatórios) e mensagem de status acessível (`aria-live="polite"`).
-
-- **Filtros**: seletores de modalidade e classificação, filtrando os resultados já calculados sem precisar buscar as vagas novamente.
-
-- **Tema**: botão com `aria-pressed` alternando `data-theme` no `<html>`, com variáveis de cor centralizadas em `theme.css`.
-
-- **Geolocalização**: `services/geolocation.js` pergunta a localização ao navegador (com permissão do usuário) e exibe uma nota contextual sobre vagas remotas; falha de forma silenciosa se o usuário negar ou o navegador não suportar, nunca bloqueando o restante da aplicação.
-
-- **Responsividade**: `responsive.css` segue mobile-first, com breakpoints em `900px` e `640px`, incluindo uma tabela que vira "cards" empilhados em telas pequenas.
-
-## Tecnologias Utilizadas
-
-- JavaScript (ES Modules)
-- HTML5 semântico
-- CSS3 (mobile-first, custom properties)
-- Fetch API + JSON
-- Web Storage API (`localStorage`)
-- Geolocation API
-- VS Code
-- GitHub
-- GitHub Desktop
-- Kanban
-
-## Conceitos de JavaScript Aplicados
-
-- Variáveis (`const`, `let`)
-- Tipos de dados
-- Condicionais (`if/else`, `switch`, ternário)
-- Operadores
-- Estruturas de repetição
-- Funções e Arrow Functions
-- Arrays e métodos de array (`map`, `filter`, `find`, `every`, `reduce`)
-- Objetos
-- POO, Classes e Herança
-- Callbacks
-- Closures
-- Promises
-- Async/Await
-- Módulos ES (`import`/`export`)
-- Fetch API
-- localStorage
-- Geolocation API
-
-## Como a internet funciona
-
-A internet funciona como uma rede global de computadores conectados entre si.
-
-Quando um usuário acessa um site:
+A internet funciona como uma rede global de computadores conectados entre si. Quando um usuário acessa um site:
 
 1. O navegador envia uma requisição;
 2. O servidor recebe essa requisição;
@@ -179,7 +178,109 @@ Quando um usuário acessa um site:
 
 Esse modelo é conhecido como arquitetura cliente-servidor. No projeto, `services/api.js` usa `fetch` para buscar o catálogo de vagas em `assets/dados/vagas.json`, e `services/geolocation.js` faz o mesmo para obter a cidade aproximada do usuário, ambos seguindo essa arquitetura.
 
-## Organização do Trello - (Kanban)
+
+---
+
+## Estratégia de Branches Git
+
+O projeto utiliza uma organização baseada em Git Flow, utilizando a branch `develop` como ambiente de integração durante o desenvolvimento.
+
+```
+main
+ |
+ └── develop (default)
+      |
+      ├── feature/ajustes-readme-configuracao
+      ├── feature/configuracao-estrutura
+      ├── feature/interface-e-componentes
+      ├── feature/modelos-e-dados
+      ├── feature/motor-skillmatch
+      └── feature/servicos-integracao
+```
+
+### Descrição das Branches
+
+**develop** — Branch principal de desenvolvimento, responsável por concentrar os merges das funcionalidades antes da entrega final. 
+
+Fluxo: `feature → develop → main`. 
+
+Estado: ✅ Branch de integração ativa.
+
+---
+**feature/configuracao-estrutura** — Configuração inicial do projeto e organização da estrutura de arquivos (pastas, arquivos iniciais, configurações gerais, organização base da aplicação). 
+
+Estado: ✅ Integrada na develop.
+
+---
+**feature/modelos-e-dados** — Implementação dos modelos principais utilizados pelo sistema (classe `Candidato`, classe `Vaga`, estrutura de dados das oportunidades, arquivo JSON com vagas cadastradas). 
+
+Estado: ✅ Integrada na develop.
+
+---
+
+**feature/motor-skillmatch** — Lógica responsável pelo cálculo de compatibilidade entre candidato e vagas (análise de habilidades, comparação técnica, pontuação de compatibilidade, recomendação de oportunidades). 
+
+Estado: ✅ Integrada na develop.
+
+---
+
+**feature/servicos-integracao** — Serviços auxiliares da aplicação (API de carregamento de dados, Local Storage, serviços de persistência, geolocalização). 
+
+Estado: ✅ Integrada na develop.
+
+---
+**feature/interface-e-componentes** — Camada visual e componentes da aplicação (cards de vagas, formulários, filtros, controle de tema, componentes da interface). Estado: 
+
+✅ Integrada na develop.
+
+---
+
+**feature/ajustes-readme-configuracao** — Ajustes finais de documentação e configurações do projeto (atualização do README, melhorias no `.gitignore`, ajustes de configuração, organização da documentação). 
+
+Estado: ✅ Integrada na develop.
+
+---
+
+### Fluxo de Desenvolvimento
+
+Cada nova funcionalidade deve ser criada a partir da branch `develop`.
+
+Exemplo:
+```
+git checkout develop
+git checkout -b feature/nova-funcionalidade
+```
+
+Após finalizar:
+
+```
+feature/nova-funcionalidade
+            |
+            ↓
+          Pull Request
+            |
+            ↓
+         develop
+```
+
+As branches de feature permanecem no repositório após o merge, conforme definido no processo do projeto.
+
+### Entrega Final
+
+Quando todas as funcionalidades estiverem validadas na branch `develop`, será criado um Pull Request final:
+
+```
+develop
+   |
+   ↓
+main
+```
+
+A branch `main` representa a versão final estável do projeto.
+
+---
+
+## Organização do Trello (Kanban)
 
 - Material de apoio
 - Pronto para iniciar
@@ -189,20 +290,42 @@ Esse modelo é conhecido como arquitetura cliente-servidor. No projeto, `service
 
 ## Links do Projeto
 
-🔗 [Vercel (Deploy)](https://skillmatch-js.vercel.app/)
-
-🔗 [Trello (Kanban)](https://trello.com/invite/b/6a138cdef4f67243b42956ac/ATTIe37fb1a53ce14355f5d31302e99152b2B8B87FED/skillmatch-js)
-
-🔗 [Repositório GitHub](https://github.com/marcelfcampos/SKILLMATCH-JS)
+- 🔗 [Vercel (Deploy)](https://skillmatch-web-vert.vercel.app/)
+- 🔗 [Trello (Kanban)](https://trello.com/invite/b/6a5d6148e58015c5a333aee0/ATTIbd5c4329d6344791e4711868e936694dFED5E0EB/projeto-avaliativo-modulo-1)
+- 🔗 [Repositório GitHub](https://github.com/marcelfcampos/skillmatch-web)
+- 🔗 [Vídeo (Google Drive)](https://skillmatch-web-vert.vercel.app/)
 
 ## Redes Sociais
 
-🔗 [LinkedIn](https://www.linkedin.com/in/marcelfcampos/)
+- 🔗 [LinkedIn](https://www.linkedin.com/in/marcelfcampos/)
+- 🔗 [Instagram](https://www.instagram.com/arqmarcelcampos/)
+- 🔗 [GitHub](https://github.com/marcelfcampos)
 
-🔗 [Instagram](https://www.instagram.com/arqmarcelcampos/)
+---
 
-🔗 [GitHub](https://github.com/marcelfcampos)
+## Checklist Final de Entrega
 
-## Autor: Marcel Ferreira Campos
+- ☑ Repositório privado no GitHub, com mentor/operação adicionados.
+- ☑ A aplicação roda no Live Server (HTML + CSS + JS).
+- ☑ Motor do SkillMatch reaproveitado: compatibilidade, faltantes, classificação, melhor vaga, recomendação.
+- ☑ ≥3 métodos de array; POO com classe + herança + `this`; callback e closure.
+- ☑ HTML semântico + acessível (landmarks, um `h1`, `label`/`for`, `alt`, foco, `lang`) + SEO (`title`, `meta description`).
+- ☑ Formulário com validação e eventos; cards gerados por JavaScript (DOM).
+- ☑ Responsivo mobile-first (testado no modo responsivo do DevTools).
+- ☑ `fetch` das vagas com os 3 estados (carregando/vazio/erro).
+- ☑ `localStorage` lembrando do perfil (com JSON e tratamento de `null`).
+- ☑ JavaScript em módulos ES (motor/ui/dados).
+- ☑ Nada fora do escopo (sem React/TS/build/back-end/Grid de layout), conferi o que veio da IA.
+- ☑ Branches + commits descritivos (≥8) mergeados na main.
+- ☑ Trello público com os cartões + link no README.
+- ☑ README completo (5.2).
+- ☑ Vídeo (≤7 min) no Google Drive com permissão por link.
+- ☑ Links enviados no AVA antes do prazo.
+
+
+
+## Autor
+
+**Marcel Ferreira Campos**
 
 Formado em Arquitetura e Urbanismo, trago para a área de tecnologia a combinação entre pensamento criativo e estruturado, aplicando conceitos de design, usabilidade e lógica construtiva ao desenvolvimento de interfaces digitais.
