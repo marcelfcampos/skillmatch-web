@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SkillMatch JS — Simulador de Vagas Front-End</title>
+  <meta name="description"
+    content="Simulador de compatibilidade entre o seu perfil e vagas de Front-End Júnior, com perfil editável, filtros e tema claro/escuro." />
+
+  <link rel="icon" type="image/svg+xml" href="./assets/img/logo.svg" />
+  <link rel="stylesheet" href="./assets/css/theme.css" />
+  <link rel="stylesheet" href="./assets/css/style.css" />
+  <link rel="stylesheet" href="./assets/css/responsive.css" />
+</head>
+
+<body>
+
+  <a class="skip-link" href="#conteudo">Pular para o conteúdo principal</a>
+
+  <header>
+    <nav aria-label="Navegação principal">
+      <a href="#" class="nav-logo">
+        <img src="./assets/img/logo.svg" alt="SkillMatch JS" width="24" height="24" />
+        SkillMatch JS
+      </a>
+      <div class="nav-actions">
+        <span class="nav-tag">SCTEC ◾ Projeto Avaliativo</span>
+        <button type="button" id="temaBtn" class="btn-tema" aria-pressed="false">🌙 Tema escuro</button>
+      </div>
+    </nav>
+
+    <div class="hero">
+      <p class="hero-label">Simulador Front-End Júnior</p>
+      <h1>Skill<br><em>Match</em></h1>
+      <p class="hero-desc">
+        Preencha seu perfil, execute a análise e descubra sua compatibilidade
+        com vagas reais de desenvolvimento front-end.
+      </p>
+      <button class="btn-primary" id="runBtn" type="button">▶ Executar análise</button>
+    </div>
+  </header>
+
+  <main id="conteudo">
+
+    <section class="perfil" id="perfil" aria-labelledby="perfil-titulo">
+      <span class="sec-label sec-label-lt">01 / Perfil</span>
+      <h2 id="perfil-titulo">Seu perfil profissional</h2>
+      <p id="formMensagem" role="status" aria-live="polite" class="form-mensagem"></p>
+
+      <form id="formPerfil" novalidate>
+        <div class="campo">
+          <label for="campoNome">Nome completo</label>
+          <input type="text" id="campoNome" name="nome" autocomplete="name" required />
+        </div>
+
+        <div class="campo">
+          <label for="campoArea">Área de atuação</label>
+          <input type="text" id="campoArea" name="area" placeholder="Ex: Front-End" required />
+        </div>
+
+        <div class="campo">
+          <label for="campoHabilidades">Habilidades (separadas por vírgula)</label>
+          <input type="text" id="campoHabilidades" name="habilidades" placeholder="Ex: JavaScript, GitHub, Kanban"
+            aria-describedby="habilidadesAjuda" required />
+          <small id="habilidadesAjuda" class="ajuda">Separe cada habilidade por vírgula.</small>
+        </div>
+
+        <div class="campo">
+          <label for="campoExperiencia">Experiência (meses)</label>
+          <input type="number" id="campoExperiencia" name="experiencia" min="0" required />
+        </div>
+
+        <button type="submit" class="btn-primary">Salvar perfil e analisar</button>
+      </form>
+
+      <p id="notaLocalizacao" class="nota-localizacao" aria-live="polite"></p>
+    </section>
+
+    <p id="loading" role="status" aria-live="polite">
+      <span class="spinner"></span> Buscando vagas disponíveis...
+    </p>
+
+    <div id="results-section">
+
+      <section class="section" id="vagas" aria-labelledby="vagas-titulo">
+        <span class="sec-label sec-label-lt">02 / Análise</span>
+        <h2 id="vagas-titulo">Vagas Analisadas</h2>
+
+        <div class="filtros" role="group" aria-label="Filtrar vagas analisadas">
+          <div class="campo-filtro">
+            <label for="filtroModalidade">Modalidade</label>
+            <select id="filtroModalidade">
+              <option value="todas">Todas</option>
+              <option value="Remoto">Remoto</option>
+              <option value="Híbrido">Híbrido</option>
+              <option value="Presencial">Presencial</option>
+            </select>
+          </div>
+          <div class="campo-filtro">
+            <label for="filtroClassificacao">Compatibilidade</label>
+            <select id="filtroClassificacao">
+              <option value="todas">Todas</option>
+              <option value="Alta">Alta</option>
+              <option value="Média">Média</option>
+              <option value="Baixa">Baixa</option>
+            </select>
+          </div>
+        </div>
+
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">Empresa / Cargo</th>
+              <th scope="col">Modalidade</th>
+              <th scope="col">Match</th>
+              <th scope="col">Habilidades</th>
+              <th scope="col">Status</th>
+              <th scope="col">Salário</th>
+            </tr>
+          </thead>
+          <tbody id="tableBody"></tbody>
+        </table>
+      </section>
+
+      <section class="best" id="match" aria-labelledby="match-titulo">
+        <div class="best-inner">
+          <div>
+            <span class="sec-label" style="color:#333;">03 / Diagnóstico</span>
+            <h2 id="match-titulo">Melhor<br>Match</h2>
+            <p class="best-desc" id="bestDesc"></p>
+          </div>
+          <div class="best-card">
+            <div class="best-co" id="bestCo"></div>
+            <div class="best-ca" id="bestCa"></div>
+            <div class="best-pct-row">
+              <div class="best-pct" id="bestPct"></div>
+              <div class="best-pct-lbl">% de compatibilidade</div>
+            </div>
+            <div class="best-bar">
+              <div class="best-fill" id="bestFill"></div>
+            </div>
+            <div class="rec-title">Recomendações de estudo</div>
+            <div id="recItems"></div>
+            <div class="best-meta" id="bestMeta"></div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+
+    <section class="candidato" id="candidato" aria-labelledby="candNome">
+      <div>
+        <p class="cand-label">04 / Candidato</p>
+        <h2 id="candNome" class="cand-name">—</h2>
+        <p class="cand-area" id="candArea">Preencha o perfil acima para começar.</p>
+        <div class="stat">
+          <div class="stat-lbl">Experiência</div>
+          <div class="stat-val" id="candExperiencia">—</div>
+        </div>
+        <div class="stat">
+          <div class="stat-lbl">Habilidades</div>
+          <div class="stat-val" id="candHabilidadesQtd">—</div>
+        </div>
+        <div class="stat">
+          <div class="stat-lbl">Vagas analisadas</div>
+          <div class="stat-val" id="vagasCount">—</div>
+        </div>
+      </div>
+      <div>
+        <p class="skills-title">Habilidades atuais</p>
+        <div class="cskills" id="candSkills"></div>
+
+        <p class="skills-title">Conceitos JS aplicados</p>
+        <div class="concepts">
+          <div class="concept">
+            <div class="c-name">Closures</div>
+            <div class="c-desc">Contador de análises em memória sem expor ao escopo global</div>
+          </div>
+          <div class="concept">
+            <div class="c-name">Callbacks</div>
+            <div class="c-desc">Finalização do fluxo com função passada como argumento</div>
+          </div>
+          <div class="concept">
+            <div class="c-name">POO + Herança</div>
+            <div class="c-desc">VagaFrontend extends Vaga com super() e atributos extras</div>
+          </div>
+          <div class="concept">
+            <div class="c-name">Promise / Async</div>
+            <div class="c-desc">Busca das vagas via fetch com await, simulando uma API</div>
+          </div>
+          <div class="concept">
+            <div class="c-name">Array.map / filter</div>
+            <div class="c-desc">Gera resultados e separa habilidades encontradas/faltantes</div>
+          </div>
+          <div class="concept">
+            <div class="c-name">Array.reduce / find / every</div>
+            <div class="c-desc">Identifica a melhor vaga e valida requisitos completos</div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="f-logo">SkillMatch JS</div>
+    <div class="f-note">Mini-Projeto Avaliativo · Front-End Júnior · 2026</div>
+  </footer>
+
+  <script type="module" src="./assets/js/main.js"></script>
+</body>
+
+</html>

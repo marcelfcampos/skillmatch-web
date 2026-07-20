@@ -1,2 +1,7 @@
+# Arquivos de sistema do Mac
 .DS_Store
+.AppleDouble
+.LSOverride
+
+# Dependências (caso alguma seja instalada localmente, ex: serve)
 node_modules/
