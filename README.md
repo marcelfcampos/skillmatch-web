@@ -293,7 +293,7 @@ A branch `main` representa a versão final estável do projeto.
 - 🔗 [Vercel (Deploy)](https://skillmatch-web-vert.vercel.app/)
 - 🔗 [Trello (Kanban)](https://trello.com/invite/b/6a5d6148e58015c5a333aee0/ATTIbd5c4329d6344791e4711868e936694dFED5E0EB/projeto-avaliativo-modulo-1)
 - 🔗 [Repositório GitHub](https://github.com/marcelfcampos/skillmatch-web)
-- 🔗 [Vídeo (Google Drive)](https://skillmatch-web-vert.vercel.app/)
+- 🔗 [Vídeo (Google Drive)](https://drive.google.com/file/d/11QVIfYlxnOwpdrhlRW4Wdti8bK7MgSYO/view?usp=sharing)
 
 ## Redes Sociais
 
